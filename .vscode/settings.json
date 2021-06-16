@@ -1,0 +1,16 @@
+{
+    "html-css-class-completion.enableEmmetSupport": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true,
+    "eslint.alwaysShowStatus": true,
+    "emmet.preferences": {
+
+        "emmet.includeLanguages": {
+            "javascript": "javascriptreact"
+        }
+
+    },
+    "files.associations": {
+        "*.js": "javascriptreact",
+    }
+}

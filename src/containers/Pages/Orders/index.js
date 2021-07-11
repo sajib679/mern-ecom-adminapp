@@ -129,7 +129,7 @@ const Orders = () => {
             </div>
           </Card>
         ))}
-      {(order.orders.length = 0 && <Card>No Order Available</Card>)}
+      {order.orders.length === 0 && <Card>No Order Available</Card>}
     </Layout>
   );
 };

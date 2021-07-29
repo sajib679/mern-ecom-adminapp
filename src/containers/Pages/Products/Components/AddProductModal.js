@@ -37,7 +37,6 @@ const AddProductModal = ({ modalShow, setModalShow, createCategoryList }) => {
   const handleProductPictures = (e) => {
     const allimg = [...e.target.files];
     setProductPictures([...productPictures, ...allimg]);
-    console.log(productPictures);
   };
 
   return (

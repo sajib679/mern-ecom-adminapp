@@ -40,7 +40,6 @@ const UpdateProductModal = ({
   const dispatch = useDispatch();
 
   const updateProduct = () => {
-    console.log(productPrice);
     const form = new FormData();
     form.append("_id", _id);
     form.append("name", productName);
@@ -72,7 +71,6 @@ const UpdateProductModal = ({
     setProductPictures(img);
     const newArray = imagePreview.filter((arr, index) => index !== i);
     setImagePreview(newArray);
-    console.log("fromRemovepic", productPictures);
   };
 
   return (
@@ -95,7 +93,6 @@ const UpdateProductModal = ({
         value={productPrice}
         onChange={(e) => {
           setProductPrice(e.target.value);
-          console.log(productPrice);
         }}
       />
       <Input

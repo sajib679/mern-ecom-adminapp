@@ -35,7 +35,6 @@ const Products = () => {
   };
 
   const ShowProductUpModal = (params) => {
-    console.log(params);
     setModalShowPU(true);
     setProductDetails(params);
   };

@@ -36,7 +36,6 @@ export const UpdateCategoryModal = (props) => {
       {expandedArray.length > 0 &&
         expandedArray.map((item, index) => (
           <Row key={index}>
-            {console.log(item.type)}
             <Col>
               <Input
                 // label="Category Name"

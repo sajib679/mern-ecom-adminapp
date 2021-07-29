@@ -66,7 +66,6 @@ const CreatePageModal = (props) => {
         <Col sm={6}>
           <Input label="Banner Image" type="file" onChange={handleBannerImage}>
             <div>
-              {console.log(bannersImage)}
               {bannersImage.map((item, index) => (
                 <Row className="image-text" key={index}>
                   {item.name}

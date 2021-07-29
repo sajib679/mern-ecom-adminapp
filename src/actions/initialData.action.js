@@ -12,7 +12,6 @@ export const getInitialData = (params) => {
     const res = await axios.get("/initialdata");
     if (res.status === 200) {
       const { categories, products, orders } = res.data;
-      console.log(categories);
 
       dispatch({
         type: categoryConstants.GET_CATEGORY_SUCCESS,
@@ -28,7 +27,5 @@ export const getInitialData = (params) => {
         payload: { orders },
       });
     }
-
-    console.log(res);
   };
 };

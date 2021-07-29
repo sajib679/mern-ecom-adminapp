@@ -9,6 +9,5 @@ export const addProduct = (body) => {
 export const updateProduct = (body) => {
   return async (dispatch) => {
     const res = await axios.post(`product/update`, body);
-    console.log(res);
   };
 };

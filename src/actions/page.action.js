@@ -7,7 +7,6 @@ export const createPage = (form) => {
   return async (dispatch) => {
     dispatch({ type: pageConstants.ADD_PAGE_REQUEST });
     const res = await axios.post(`page/create`, form);
-    console.log(res.data);
     if (res.status == 200) {
       const { page } = res.data;
       dispatch(getAllPage());
@@ -24,7 +23,6 @@ export const getAllPage = () => {
   return async (dispatch) => {
     dispatch({ type: pageConstants.GET_PAGE_REQUEST });
     const res = await axios.get(`page/get`);
-    console.log(res);
 
     if (res.status == 200) {
       dispatch({

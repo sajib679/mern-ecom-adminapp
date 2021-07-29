@@ -94,7 +94,6 @@ export default (state = initState, action) => {
         newCategory
       );
 
-      console.log(updatedCategoryList);
       state = {
         ...state,
         loading: false,

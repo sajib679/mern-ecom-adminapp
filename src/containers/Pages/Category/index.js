@@ -149,7 +149,6 @@ const Category = (props) => {
     const ids = checkedArray.map((item) => ({
       _id: item.value,
     }));
-    console.log(ids);
 
     dispatch(deleteCategories(ids)).then((updatedCategory) => {
       if (updateCategory) {

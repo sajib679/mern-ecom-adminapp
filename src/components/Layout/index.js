@@ -20,6 +20,7 @@ const Layout = (props) => {
                   <NavLink to="/products">Products</NavLink>
                   <NavLink to="/orders">Orders</NavLink>
                   <NavLink to="/category">Category</NavLink>
+                  <NavLink to="/banner">Banner</NavLink>
                 </Nav>
               </Col>
               <Col md={10} className="content-bar">

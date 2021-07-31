@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Layout from "../../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrder } from "../../../actions/order.action";
@@ -75,8 +75,9 @@ const Orders = () => {
               }}
             >
               <div className="orderTrack">
-                {orderItem.orderStatus.map((status) => (
+                {orderItem.orderStatus.map((status, index) => (
                   <div
+                    key={index}
                     className={`orderStatus ${
                       status.isCompleted ? "active" : ""
                     }`}
@@ -99,17 +100,18 @@ const Orders = () => {
                   boxSizing: "border-box",
                 }}
               >
-                <select onChange={(e) => setType(e.target.value)}>
+                <select
+                  className="custom-select custom-select-sm"
+                  onChange={(e) => setType(e.target.value)}
+                >
                   <option value={""}>select status</option>
                   {orderItem.orderStatus.map((status) => {
                     return (
-                      <>
+                      <Fragment key={status.type}>
                         {!status.isCompleted ? (
-                          <option key={status.type} value={status.type}>
-                            {status.type}
-                          </option>
+                          <option value={status.type}>{status.type}</option>
                         ) : null}
-                      </>
+                      </Fragment>
                     );
                   })}
                 </select>
@@ -122,7 +124,10 @@ const Orders = () => {
                   boxSizing: "border-box",
                 }}
               >
-                <button onClick={() => onOrderUpdate(orderItem._id)}>
+                <button
+                  className="btn btn-success"
+                  onClick={() => onOrderUpdate(orderItem._id)}
+                >
                   confirm
                 </button>
               </div>

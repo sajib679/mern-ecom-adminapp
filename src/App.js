@@ -11,6 +11,7 @@ import Products from "./containers/Pages/Products";
 import Orders from "./containers/Pages/Orders";
 import Category from "./containers/Pages/Category";
 import Page from "./containers/Pages/Page";
+import Banner from "./containers/Pages/Banner";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -34,6 +35,7 @@ function App() {
         <PrivateRoute path="/page" component={Page}></PrivateRoute>
         <PrivateRoute path="/orders" component={Orders}></PrivateRoute>
         <PrivateRoute path="/category" component={Category}></PrivateRoute>
+        <PrivateRoute path="/banner" component={Banner}></PrivateRoute>
 
         <Route path="/signin" component={SignIn}></Route>
         <Route path="/signup" component={SignUp}></Route>

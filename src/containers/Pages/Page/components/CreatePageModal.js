@@ -23,7 +23,7 @@ const CreatePageModal = ({
   const dispatch = useDispatch();
 
   const createPageForm = () => {
-    const form = FormData();
+    const form = new FormData();
     form.append("pageTitle", pageTitle);
     form.append("description", description);
     form.append("category", categoryId);
@@ -39,9 +39,9 @@ const CreatePageModal = ({
 
   const handleBannerImage = (e) => {
     var fileList = Array.from(e.target.files);
-    setBannersImage([...bannersImage, ...fileList]);
+    setBannersImage((prevState) => [...prevState, ...fileList]);
 
-    const imgPreview = fileList.map((file) => {
+    const imgPreview = bannersImage.map((file) => {
       return URL.createObjectURL(file);
     });
     setBannersImagePreview(imgPreview);
@@ -49,8 +49,8 @@ const CreatePageModal = ({
 
   const handleProductImage = (e) => {
     var fileList = Array.from(e.target.files);
-    setProductsImage([...productsImage, ...fileList]);
-    const imgPreview = fileList.map((file) => {
+    setProductsImage((prevState) => [...prevState, ...fileList]);
+    const imgPreview = productsImage.map((file) => {
       return URL.createObjectURL(file);
     });
     setProductsImagePreview(imgPreview);

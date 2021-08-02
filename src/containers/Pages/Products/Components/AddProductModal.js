@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../../components/UI/Input";
 import Modal from "../../../../components/UI/Modal";
 import { addProduct } from "../../../../actions/product.action";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Col, Row } from "react-bootstrap";
 
 import "../styles.css";
 
@@ -14,6 +16,8 @@ const AddProductModal = ({ modalShow, setModalShow, createCategoryList }) => {
   const [productDescription, setProductDescription] = useState(initialState);
   const [productCategoryId, setProductCategoryId] = useState(initialState);
   const [productPictures, setProductPictures] = useState([]);
+  const [productPicturesPreview, setProductPicturesPreview] = useState([]);
+
   const category = useSelector((state) => state.category);
 
   const dispatch = useDispatch();
@@ -35,8 +39,19 @@ const AddProductModal = ({ modalShow, setModalShow, createCategoryList }) => {
   };
 
   const handleProductPictures = (e) => {
-    const allimg = [...e.target.files];
-    setProductPictures([...productPictures, ...allimg]);
+    var fileList = Array.from(e.target.files);
+    setProductPictures([...productPictures, ...fileList]);
+    const imgPreview = fileList.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    setProductPicturesPreview(imgPreview);
+  };
+
+  const rmProductImg = ({ index }) => {
+    productPictures.splice(index, 1);
+    setProductPictures([...productPictures]);
+    productPicturesPreview.splice(index, 1);
+    setProductPicturesPreview(productPicturesPreview);
   };
 
   return (
@@ -89,14 +104,27 @@ const AddProductModal = ({ modalShow, setModalShow, createCategoryList }) => {
         ))}
       </select>
       <hr />
-      {productPictures.map((pic, index) => (
-        <div key={index}> {pic.name} </div>
-      ))}
       <Input
-        // label="Product Image"
+        // label="Product Pictures"
         type="file"
         onChange={handleProductPictures}
-      />
+      >
+        <Row>
+          {productPicturesPreview.map((picture, index) => (
+            <Col sm={2} key={index}>
+              <div className="img-container">
+                <img src={picture}></img>
+                <span
+                  className="remove-icon"
+                  onClick={() => rmProductImg({ index: index })}
+                >
+                  <AiOutlineDelete />
+                </span>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </Input>
     </Modal>
   );
 };

@@ -29,14 +29,14 @@ const Products = () => {
     return options;
   };
 
-  const ShowProductDetails = (params) => {
+  const ShowProductDetails = (productDetails) => {
+    setProductDetails(productDetails);
     setModalShowPD(true);
-    setProductDetails(params);
   };
 
-  const ShowProductUpModal = (params) => {
+  const ShowProductUpModal = (productDetails) => {
+    setProductDetails(productDetails);
     setModalShowPU(true);
-    setProductDetails(params);
   };
 
   return (

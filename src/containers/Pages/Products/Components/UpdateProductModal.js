@@ -5,6 +5,7 @@ import { imageUrl } from "../../../../urlConfig";
 import { updateProduct as update } from "../../../../actions/product.action";
 import Input from "../../../../components/UI/Input";
 import Modal from "../../../../components/UI/Modal";
+import axios from "../../../../helpers/axios";
 
 const UpdateProductModal = ({
   modalShowPU,
@@ -57,16 +58,18 @@ const UpdateProductModal = ({
   };
 
   const handleProductPictures = (e) => {
-    const allimg = [...e.target.files];
-    setProductPictures([...productPictures, ...allimg]);
+    const seletedNewImage = [...e.target.files];
+    setProductPictures((prevState) => [...prevState, ...seletedNewImage]);
 
-    const newImg = allimg.map((file) => {
+    const newImg = seletedNewImage.map((file) => {
       return URL.createObjectURL(file);
     });
-    setImagePreview([...productPictures, ...newImg]);
+    setImagePreview((prevState) => [...prevState, ...newImg]);
   };
 
-  const removePic = (i) => {
+  const removePic = ({ i, imgName, productId, imageId }) => {
+    axios.delete(`/upload/${imgName}`);
+    axios.patch("/product/update", { productId, imageId });
     const img = productPictures.filter((arr, index) => index !== i);
     setProductPictures(img);
     const newArray = imagePreview.filter((arr, index) => index !== i);
@@ -128,10 +131,18 @@ const UpdateProductModal = ({
             sm={2}
             key={index}
             ref={removeThumbRef}
-            onClick={() => removePic(index)}
+            onClick={() =>
+              removePic({
+                i: index,
+                imgName: picture.img,
+                productId: _id,
+                imageId: picture._id,
+              })
+            }
           >
             <div className="img-container">
               <img
+                alt=""
                 key={picture._id}
                 src={picture.img ? imageUrl(picture.img) : picture}
               ></img>

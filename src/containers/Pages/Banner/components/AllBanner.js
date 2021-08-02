@@ -3,7 +3,7 @@ import { Row, Col, Table, Container } from "react-bootstrap";
 import { imageUrl } from "../../../../urlConfig";
 const AllBanner = ({ banners }) => {
   return (
-    <Container>
+    <Container fluid>
       {banners.map((banner) => {
         return (
           <Row key={banner._id} className="d-block border border-gray">

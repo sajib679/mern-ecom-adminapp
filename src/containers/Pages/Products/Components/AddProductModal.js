@@ -44,7 +44,7 @@ const AddProductModal = ({ modalShow, setModalShow, createCategoryList }) => {
     const imgPreview = fileList.map((file) => {
       return URL.createObjectURL(file);
     });
-    setProductPicturesPreview(imgPreview);
+    setProductPicturesPreview((prevState) => [...prevState, ...imgPreview]);
   };
 
   const rmProductImg = ({ index }) => {

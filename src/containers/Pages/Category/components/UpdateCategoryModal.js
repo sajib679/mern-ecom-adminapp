@@ -3,17 +3,16 @@ import { Col, Row } from "react-bootstrap";
 import Input from "../../../../components/UI/Input";
 import UpCatModal from "../../../../components/UI/Modal";
 
-export const UpdateCategoryModal = (props) => {
-  const {
-    show,
-    onHide,
-    buttonOnSave,
-    expandedArray,
-    checkedArray,
-    handleCategoryInput,
-    categoryList,
-    handleCategoryImage,
-  } = props;
+export const UpdateCategoryModal = ({
+  show,
+  onHide,
+  buttonOnSave,
+  expandedArray,
+  checkedArray,
+  handleCategoryInput,
+  categoryList,
+  handleUpdateCategoryImage,
+}) => {
   return (
     <UpCatModal
       show={show}
@@ -24,7 +23,7 @@ export const UpdateCategoryModal = (props) => {
     >
       <Row>
         <Col>
-          <h6>Expanded Category</h6>
+          <h6>Selected Category</h6>
         </Col>
         <Col>
           <h6>Parent Category</h6>
@@ -32,74 +31,8 @@ export const UpdateCategoryModal = (props) => {
         <Col>
           <h6>Type</h6>
         </Col>
-      </Row>
-      {expandedArray.length > 0 &&
-        expandedArray.map((item, index) => (
-          <Row key={index}>
-            <Col>
-              <Input
-                // label="Category Name"
-                type="text"
-                placeholder={`Enter Category Name`}
-                value={item.name}
-                onChange={(e) =>
-                  handleCategoryInput("name", e.target.value, index, "expanded")
-                }
-              />
-            </Col>
-            <Col>
-              {/* <label htmlFor="select">Parent Category</label> */}
-              <select
-                className="form-control"
-                value={item.parentId}
-                onChange={(e) =>
-                  handleCategoryInput(
-                    "parentId",
-                    e.target.value,
-                    index,
-                    "expanded"
-                  )
-                }
-              >
-                <option value="">None</option>
-                {categoryList.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </Col>
-            <Col>
-              {/* <label htmlFor="select">Category Type</label> */}
-              <select
-                className="form-control"
-                value={item.type}
-                onChange={(e) =>
-                  handleCategoryInput("type", e.target.value, index, "expanded")
-                }
-              >
-                <option value={"None"}>
-                  {item.type == ("undefined" || undefined) ? "None" : item.type}
-                </option>
-                <option value="store">Store</option>
-                <option value="product">Product</option>
-                <option value="page">Page</option>
-              </select>
-            </Col>
-          </Row>
-        ))}
-
-      <hr></hr>
-
-      <Row>
         <Col>
-          <h6>Checked Category</h6>
-        </Col>
-        <Col>
-          <h6>Parent Category</h6>
-        </Col>
-        <Col>
-          <h6>Type</h6>
+          <h6>Image</h6>
         </Col>
       </Row>
 
@@ -108,7 +41,6 @@ export const UpdateCategoryModal = (props) => {
           <Row key={index}>
             <Col>
               <Input
-                // label="Category Name"
                 type="text"
                 placeholder={`Enter Category Name`}
                 value={item.name}
@@ -118,7 +50,6 @@ export const UpdateCategoryModal = (props) => {
               />
             </Col>
             <Col>
-              {/* <label htmlFor="select">Parent Category</label> */}
               <select
                 className="form-control"
                 value={item.parentId}
@@ -140,7 +71,6 @@ export const UpdateCategoryModal = (props) => {
               </select>
             </Col>
             <Col>
-              {/* <label htmlFor="select">Category Type</label> */}
               <select
                 className="form-control"
                 value={item.type}
@@ -154,20 +84,90 @@ export const UpdateCategoryModal = (props) => {
                 <option value="store">Store</option>
                 <option value="product">Product</option>
                 <option value="page">Page</option>
+                <option value="brand">Page</option>
               </select>
+            </Col>
+            <Col>
+              <Input
+                type="file"
+                onChange={(e) =>
+                  handleUpdateCategoryImage(e.target.files[0], index)
+                }
+              />
             </Col>
           </Row>
         ))}
 
       <hr></hr>
-
-      <Input
-        label="Category Image"
-        type="file"
-        onChange={handleCategoryImage}
-      />
     </UpCatModal>
   );
 };
 
 export default UpdateCategoryModal;
+
+//Expanded Array
+// <Row>
+//       <Col>
+//         <h6>Expanded Category</h6>
+//       </Col>
+//       <Col>
+//         <h6>Parent Category</h6>
+//       </Col>
+//       <Col>
+//         <h6>Type</h6>
+//       </Col>
+//     </Row>
+
+//     <hr></hr>
+// {
+//   expandedArray.length > 0 &&
+//     expandedArray.map((item, index) => (
+//       <Row key={index}>
+//         <Col>
+//           <Input
+//             // label="Category Name"
+//             type="text"
+//             placeholder={`Enter Category Name`}
+//             value={item.name}
+//             onChange={(e) =>
+//               handleCategoryInput("name", e.target.value, index, "expanded")
+//             }
+//           />
+//         </Col>
+//         <Col>
+//           {/* <label htmlFor="select">Parent Category</label> */}
+//           <select
+//             className="form-control"
+//             value={item.parentId}
+//             onChange={(e) =>
+//               handleCategoryInput("parentId", e.target.value, index, "expanded")
+//             }
+//           >
+//             <option value="">None</option>
+//             {categoryList.map((option) => (
+//               <option key={option.value} value={option.value}>
+//                 {option.name}
+//               </option>
+//             ))}
+//           </select>
+//         </Col>
+//         <Col>
+//           {/* <label htmlFor="select">Category Type</label> */}
+//           <select
+//             className="form-control"
+//             value={item.type}
+//             onChange={(e) =>
+//               handleCategoryInput("type", e.target.value, index, "expanded")
+//             }
+//           >
+//             <option value={"None"}>
+//               {item.type == ("undefined" || undefined) ? "None" : item.type}
+//             </option>
+//             <option value="store">Store</option>
+//             <option value="product">Product</option>
+//             <option value="page">Page</option>
+//           </select>
+//         </Col>
+//       </Row>
+//     ));
+// }

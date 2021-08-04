@@ -49,6 +49,7 @@ export const updateCategories = (form) => {
     if (res.status == 200) {
       return true;
     } else {
+      return false;
     }
   };
 };
@@ -59,6 +60,7 @@ export const deleteCategories = (ids) => {
     if (res.status == 200) {
       return true;
     } else {
+      return false;
     }
   };
 };

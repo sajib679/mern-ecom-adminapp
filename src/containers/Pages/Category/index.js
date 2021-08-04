@@ -28,6 +28,8 @@ const Category = (props) => {
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoryId, setParentCategoryId] = useState(initialState);
   const [categoryImage, setCategoryImage] = useState(initialState);
+  const [categoryUpdateImage, setCategoryUpdateImage] = useState(initialState);
+
   const [checked, setChecked] = useState([]);
   const [expanded, setExpanded] = useState([]);
   const [checkedArray, setCheckedArray] = useState([]);
@@ -55,25 +57,32 @@ const Category = (props) => {
   const handleCategoryImage = (e) => {
     setCategoryImage(e.target.files[0]);
   };
+
+  const handleUpdateCategoryImage = (image, index) => {
+    setCategoryUpdateImage({ ...categoryUpdateImage, [index]: image });
+    console.log(categoryUpdateImage);
+  };
+
   const handleCategoryInput = (key, value, index, type) => {
     if (type === "checked") {
       const updatedCheckedArray = checkedArray.map((item, _index) =>
         index == _index ? { ...item, [key]: value } : item
       );
       setCheckedArray(updatedCheckedArray);
-    } else if (type == "expanded") {
-      const updatedExpandedArray = expandedArray.map((item, _index) =>
-        index == _index ? { ...item, [key]: value } : item
-      );
-      setExpandedArray(updatedExpandedArray);
     }
+    // else if (type == "expanded") {
+    //   const updatedExpandedArray = expandedArray.map((item, _index) =>
+    //     index == _index ? { ...item, [key]: value } : item
+    //   );
+    //   setExpandedArray(updatedExpandedArray);
+    // }
   };
 
   const updateCategory = () => {
     setUpdateCategoryModal(true);
     const categories = createCategoryList(category.categories);
     const checkedArray = [];
-    const expandedArray = [];
+    // const expandedArray = [];
     checked.length > 0 &&
       checked.forEach((categoryId, index) => {
         const category = categories.find(
@@ -81,15 +90,15 @@ const Category = (props) => {
         );
         category && checkedArray.push(category);
       });
-    expanded.length > 0 &&
-      expanded.forEach((categoryId, index) => {
-        const category = categories.find(
-          (category, _index) => categoryId === category.value
-        );
-        category && expandedArray.push(category);
-      });
+    // expanded.length > 0 &&
+    //   expanded.forEach((categoryId, index) => {
+    //     const category = categories.find(
+    //       (category, _index) => categoryId === category.value
+    //     );
+    //     category && expandedArray.push(category);
+    //   });
     setCheckedArray(checkedArray);
-    setExpandedArray(expandedArray);
+    // setExpandedArray(expandedArray);
   };
   const deleteCategory = () => {
     setDeleteCategoryModal(true);
@@ -123,24 +132,31 @@ const Category = (props) => {
   const updateCategoryForm = () => {
     const form = new FormData();
 
-    expandedArray.forEach((item, index) => {
-      form.append("_id", item.value);
-      form.append("name", item.name);
-      form.append("parentId", item.parentId ? item.parentId : "");
-      form.append("type", item.type);
-    });
+    // expandedArray.forEach((item, index) => {
+    //   form.append("_id", item.value);
+    //   form.append("name", item.name);
+    //   form.append("parentId", item.parentId ? item.parentId : "");
+    //   form.append("type", item.type);
+    // });
 
     checkedArray.forEach((item, index) => {
+      console.log(categoryUpdateImage[index]?.name);
       form.append("_id", item.value);
       form.append("name", item.name);
       form.append("parentId", item.parentId ? item.parentId : "");
       form.append("type", item.type);
+      // categoryImage[index] &&
+      form.append("categoryImage", categoryUpdateImage[index]);
+      form.append("imageName", categoryUpdateImage[index]?.name);
     });
 
-    dispatch(updateCategories(form)).then((updatedCategory) => {
-      if (updateCategory) {
+    dispatch(updateCategories(form)).then((succes) => {
+      if (succes) {
         dispatch(getAllCategory());
       }
+      setChecked([]);
+      setCheckedArray([]);
+      setCategoryUpdateImage({});
     });
 
     setUpdateCategoryModal(false);
@@ -211,11 +227,11 @@ const Category = (props) => {
         show={updateCategoryModal}
         onHide={() => setUpdateCategoryModal(false)}
         buttonOnSave={updateCategoryForm}
-        expandedArray={expandedArray}
+        // expandedArray={expandedArray}
         checkedArray={checkedArray}
         handleCategoryInput={handleCategoryInput}
         categoryList={createCategoryList(category.categories)}
-        handleCategoryImage={handleCategoryImage}
+        handleUpdateCategoryImage={handleUpdateCategoryImage}
       ></UpdateCategoryModal>
 
       <DeleteCategoryModal

@@ -46,3 +46,22 @@ export const getAllPage = () => {
     }
   };
 };
+
+export const deletePageImage = ({ imgName, pageId, imageId }) => {
+  return async (dispatch) => {
+    const res = await axios.delete(`/upload/${imgName}`);
+    if (res.status === 200) {
+      const response = await axios.patch("/page/deleteimage", {
+        pageId,
+        imageId,
+      });
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+};

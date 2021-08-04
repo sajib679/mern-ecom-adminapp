@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Row, Button } from "react-bootstrap";
 import { imageUrl } from "../../../../urlConfig";
-import { updateProduct as update } from "../../../../actions/product.action";
+import {
+  updateProduct as update,
+  deleteProductImage,
+} from "../../../../actions/product.action";
 import Input from "../../../../components/UI/Input";
 import Modal from "../../../../components/UI/Modal";
 import axios from "../../../../helpers/axios";
@@ -60,7 +63,6 @@ const UpdateProductModal = ({
   const handleProductPictures = (e) => {
     const seletedNewImage = [...e.target.files];
     setProductPictures((prevState) => [...prevState, ...seletedNewImage]);
-
     const newImg = seletedNewImage.map((file) => {
       return URL.createObjectURL(file);
     });
@@ -68,8 +70,19 @@ const UpdateProductModal = ({
   };
 
   const removePic = ({ i, imgName, productId, imageId }) => {
-    axios.delete(`/upload/${imgName}`);
-    axios.patch("/product/update", { productId, imageId });
+    if (imageId && productId) {
+      dispatch(deleteProductImage({ imgName, productId, imageId })).then(
+        (succes) => {
+          if (succes) {
+            const img = productPictures.filter((arr, index) => index !== i);
+            setProductPictures(img);
+            const newArray = imagePreview.filter((arr, index) => index !== i);
+            setImagePreview(newArray);
+            return;
+          }
+        }
+      );
+    }
     const img = productPictures.filter((arr, index) => index !== i);
     setProductPictures(img);
     const newArray = imagePreview.filter((arr, index) => index !== i);

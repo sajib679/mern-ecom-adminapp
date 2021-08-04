@@ -39,35 +39,35 @@ const CreatePageModal = ({
 
   const handleBannerImage = (e) => {
     var fileList = Array.from(e.target.files);
-    setBannersImage((prevState) => [...prevState, ...fileList]);
+    setBannersImage([...bannersImage, ...fileList]);
 
-    const imgPreview = bannersImage.map((file) => {
+    const imgPreview = fileList.map((file) => {
       return URL.createObjectURL(file);
     });
-    setBannersImagePreview(imgPreview);
+    setBannersImagePreview((prevState) => [...prevState, ...imgPreview]);
   };
 
   const handleProductImage = (e) => {
     var fileList = Array.from(e.target.files);
-    setProductsImage((prevState) => [...prevState, ...fileList]);
-    const imgPreview = productsImage.map((file) => {
+    setProductsImage([...productsImage, ...fileList]);
+    const imgPreview = fileList.map((file) => {
       return URL.createObjectURL(file);
     });
-    setProductsImagePreview(imgPreview);
+    setProductsImagePreview((prevState) => [...prevState, ...imgPreview]);
   };
 
   const rmProductImg = ({ index }) => {
     productsImage.splice(index, 1);
     setProductsImage([...productsImage]);
     productsImagePreview.splice(index, 1);
-    setProductsImagePreview(productsImagePreview);
+    setProductsImagePreview([...productsImagePreview]);
   };
 
   const rmBannerImg = ({ index }) => {
     bannersImage.splice(index, 1);
     setBannersImage([...bannersImage]);
     bannersImagePreview.splice(index, 1);
-    setBannersImagePreview(bannersImagePreview);
+    setBannersImagePreview([...bannersImagePreview]);
   };
 
   return (

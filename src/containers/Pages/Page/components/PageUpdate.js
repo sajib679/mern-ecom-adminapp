@@ -5,7 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import { imageUrl } from "../../../../urlConfig";
 import { AiOutlineDelete } from "react-icons/ai";
 import Input from "../../../../components/UI/Input";
-import { updatePage } from "../../../../actions/page.action";
+import { deletePageImage, updatePage } from "../../../../actions/page.action";
 import axios from "../../../../helpers/axios";
 
 const UpdatePage = ({
@@ -18,8 +18,8 @@ const UpdatePage = ({
   const [categoryId, setCategoryId] = useState(pageDetails.category._id);
   const [description, setDescription] = useState(pageDetails.description);
   const [bannersImage, setBannersImage] = useState(pageDetails.bannersImage);
-  const [newBannersImage, setNewBannersImage] = useState([]);
   const [productsImage, setProductsImage] = useState(pageDetails.productsImage);
+  const [newBannersImage, setNewBannersImage] = useState([]);
   const [newProductsImage, setNewProductsImage] = useState([]);
   const [newProductsImagePreview, setNewProductsImagePreview] = useState([]);
   const [newBannersImagePreview, setNewBannersImagePreview] = useState([]);
@@ -64,25 +64,36 @@ const UpdatePage = ({
 
   const rmProductImg = ({ index, imgName, pageId, imageId }) => {
     if (imageId && imgName) {
-      axios.delete(`/upload/${imgName}`);
-      axios.patch("/page/deleteimage", { pageId, imageId });
-      rmProductImg({ index: index });
+      dispatch(deletePageImage({ imgName, pageId, imageId })).then((succes) => {
+        if (succes) {
+          productsImage.splice(index, 1);
+          setProductsImage([...productsImage]);
+          return;
+        }
+      });
+    } else {
+      newProductsImage.splice(index, 1);
+      setNewProductsImage([...newProductsImage]);
+      newProductsImagePreview.splice(index, 1);
+      setNewProductsImagePreview(newProductsImagePreview);
     }
-    newProductsImage.splice(index, 1);
-    setNewProductsImage([...newProductsImage]);
-    newProductsImagePreview.splice(index, 1);
-    setNewProductsImagePreview(newProductsImagePreview);
   };
 
   const rmBannerImg = ({ index, imgName, pageId, imageId }) => {
     if (imageId && imgName) {
-      axios.delete(`/upload/${imgName}`);
-      axios.patch("/page/deleteimage", { pageId, imageId });
+      dispatch(deletePageImage({ imgName, pageId, imageId })).then((succes) => {
+        if (succes) {
+          bannersImage.splice(index, 1);
+          setBannersImage([...bannersImage]);
+          return;
+        }
+      });
+    } else {
+      newBannersImage.splice(index, 1);
+      setNewBannersImage([...newBannersImage]);
+      newBannersImagePreview.splice(index, 1);
+      setNewBannersImagePreview(newBannersImagePreview);
     }
-    newBannersImage.splice(index, 1);
-    setNewBannersImage([...newBannersImage]);
-    newBannersImagePreview.splice(index, 1);
-    setNewBannersImagePreview(newBannersImagePreview);
   };
 
   const ref = useRef();
@@ -184,7 +195,7 @@ const UpdatePage = ({
           <strong>Banner Images</strong>
         </label>
         <Row>
-          {pageDetails.bannersImage.map((picture, index) => (
+          {bannersImage.map((picture, index) => (
             <Col sm={2} key={picture._id}>
               <div className="img-container">
                 <img key={picture._id} src={imageUrl(picture.img)}></img>
@@ -209,7 +220,7 @@ const UpdatePage = ({
           <strong>Product Images</strong>
         </label>
         <Row>
-          {pageDetails.productsImage.map((picture, index) => (
+          {productsImage.map((picture, index) => (
             <Col sm={2} key={picture._id}>
               <div className="img-container">
                 <img key={picture._id} src={imageUrl(picture.img)}></img>
